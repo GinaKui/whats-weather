@@ -1,0 +1,25 @@
+{
+  "name": "whats-weather",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GinaKui/whats-weather.git"
+  },
+  "author": {
+    "name": "Gina Kui",
+    "email": "developerkui@outlook.com"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GinaKui/whats-weather/issues"
+  },
+  "homepage": "https://github.com/GinaKui/whats-weather#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
