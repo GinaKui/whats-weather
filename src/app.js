@@ -1,10 +1,13 @@
 const path = require('path');
 const express = require('express');
 const hbs = require('hbs');
+const parseGeo = require('./utils/parseGeo');
+const forecast = require('./utils/forecast');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-//set up the server
+
+//set up the server 
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, '../templates/views'));
 hbs.registerPartials(path.join(__dirname, '../templates/partials'));
@@ -18,32 +21,72 @@ app.get('/', (req, res) => {
 });
 
 app.get('/weather', (req, res) => {
-  if(req.query.location) {
+  if (!req.query.address) {
     return res.send({
-      error: 'location is required'
+      error: 'You must provide an address!'
     });
   }
-  res.send('some weather infor');
-});
+/**
+ * @todo try to get out of callback hell
+ */
+  parseGeo(req.query.address, (error, { latitude, longitude, location } = {}) => {
+    if (error) {
+      return res.send({ error });
+    }
+
+    forecast(latitude, longitude, (error, forecastData) => {
+      if (error) {
+        return res.send({ error });
+      }
+
+      res.send({
+        forecast: forecastData,
+        location,
+        address: req.query.address
+      });
+    });
+  })
+})
 
 app.get('/about', (req, res) => {
-  res.send('this is the about page');
+  res.render('about', {
+    title: 'About Me',
+    name: 'Gina Kui'
+  });
 });
 
 app.get('/help', (req, res) => {
-  res.send('this is the help page');
+  res.render('help', {
+    title: 'About Me',
+    name: 'Gina Kui',
+    helpText: 'some help text'
+  });
 });
+
+app.get('/products', (req, res) => {
+  if (!req.query.search) {
+      return res.send({
+          error: 'You must provide a search term'
+      })
+  }
+  console.log(req.query.search)
+  res.send({
+      products: []
+  })
+})
 
 app.get('/help/*', (req, res) => {
   res.render('404', {
-    title: '404',
-    errorMessage: 'Help article not found'
-  })
+    title: 'About Me',
+    name: 'Gina Kui',
+    errorMessage: 'Help content not found'
+  });
 })
 
 app.get('*', (req, res) => {
   res.render('404', {
     title: '404',
+    name: 'Gina Kui',
     errorMessage: 'Page not found'
   });
 });
