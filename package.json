@@ -1,6 +1,10 @@
 {
   "name": "whats-weather",
   "version": "1.0.0",
+  "engines": {
+    "node": "10.15.3"
+  },
+  "private": true,
   "description": "back end server to provide weather information",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -21,6 +25,7 @@
   },
   "homepage": "https://github.com/GinaKui/whats-weather#readme",
   "dependencies": {
+    "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "hbs": "^4.0.5",
     "request": "^2.88.0"

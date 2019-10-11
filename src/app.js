@@ -32,13 +32,12 @@ app.get('/weather', (req, res) => {
   parseGeo(req.query.address, (error, { latitude, longitude, location } = {}) => {
     if (error) {
       return res.send({ error });
-    }
-
+    } 
     forecast(latitude, longitude, (error, forecastData) => {
       if (error) {
+        console.log(error);
         return res.send({ error });
       }
-
       res.send({
         forecast: forecastData,
         location,
